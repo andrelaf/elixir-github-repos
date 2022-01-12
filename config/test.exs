@@ -12,6 +12,9 @@ config :github_repos, GithubRepos.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
+config :github_repos, GithubReposWeb.ReposController,
+  github_adapter: GithubRepos.Github.ClientMock
+
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :github_repos, GithubReposWeb.Endpoint,

@@ -1,31 +1,22 @@
 defmodule GithubReposWeb.ReposController do
   use GithubReposWeb, :controller
 
-  alias GithubRepos.Repos.Client
+  alias GithubRepos.RepoInfo
+  alias GithubReposWeb.FallbackController
 
-  # def show(conn, %{"username" => username}) do
-  #   with {:ok, body} <- Client.user_repos(username) do
-  #     conn
-  #     |> put_status(:ok)
-  #     |> render("show.json", body: body)
-  #   end
-  # end
+  action_fallback FallbackController
 
   def show(conn, %{"username" => username}) do
-    username
-    |> Client.user_repos()
-    |> handle_show(conn)
+    with {:ok, [%RepoInfo{} | _tails] = repos} <- get_github_client().get_user_repos(username) do
+      conn
+      |> put_status(:ok)
+      |> render("repos.json", repos: repos)
+    end
   end
 
-  defp handle_show({:ok, body}, conn) do
-    conn
-    |> put_status(:ok)
-    |> render("show.json", body: body)
-  end
-
-  defp handle_show({:error, %{"message" => "Not Found"}}, conn) do
-    conn
-    |> put_status(:not_found)
-    |> render("404.json", message: "User not found")
+  defp get_github_client do
+    :repo
+    |> Application.fetch_env!(__MODULE__)
+    |> Keyword.get(:github_adapter)
   end
 end
