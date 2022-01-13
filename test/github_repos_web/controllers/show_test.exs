@@ -1,12 +1,12 @@
-defmodule RepoWeb.ReposController.CreateTest do
-  use RepoWeb.ConnCase, async: true
+defmodule GithubReposWeb.ReposController.CreateTest do
+  use GithubReposWeb.ConnCase, async: true
 
   import Mox
-  import Repo.Factory
+  import GithubRepos.Factory
+  alias GithubReposWeb.Auth.Guardian
 
-  alias Github.ClientMock
-  alias Repo.Error
-  alias RepoWeb.Auth.Guardian
+  alias GithubRepos.Error
+  alias GithubRepos.Github.ClientMock
 
   describe "create/2" do
     setup %{conn: conn} do

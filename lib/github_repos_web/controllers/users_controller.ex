@@ -8,7 +8,7 @@ defmodule GithubReposWeb.UsersController do
   action_fallback FallbackController
 
   def create(conn, params) do
-    with {:ok, %User{} = user} <- Repo.create_user(params) do
+    with {:ok, %User{} = user} <- GithubRepos.create_user(params) do
       conn
       |> put_status(:ok)
       |> render("create.json", user: user)

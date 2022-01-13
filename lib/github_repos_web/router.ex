@@ -11,6 +11,7 @@ defmodule GithubReposWeb.Router do
 
   pipeline :auth do
     plug GithubReposWeb.Auth.Pipeline
+    plug GithubReposWeb.Plugs.TokenRefresher
   end
 
   scope "/api", GithubReposWeb do

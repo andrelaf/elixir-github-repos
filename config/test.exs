@@ -8,8 +8,10 @@ use Mix.Config
 config :github_repos, GithubRepos.Repo,
   username: "postgres",
   password: "postgres",
-  database: "github_repos_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "github_repos_test",
   hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :github_repos, GithubReposWeb.ReposController,
